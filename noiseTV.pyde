@@ -1,21 +1,20 @@
-global wheel, kb_x, kb_y, config
-wheel = 0
-kb_x, kb_y = 0, 0
-
-
-defaults = '''0 #float. Can be 0 (actually, means 3600)
-10 #int (px)
-rainbow #color palette: 'b/w'/'rainbow'/'wheel-saturation'/'wheel-hue'/'mouse'/'keyboard'/'%x %y'(int,int)
-no #'cross'/'arrow'/'no'
+defaults = '''300 #float. Can be 0 (actually, means 3600)
+100 #int (px)
+mouse #color palette: 'b/w'/'rainbow'/'wheel-saturation'/'wheel-hue'/'mouse'/'keyboard'/'%x %y'(int,int)
+cross #'cross'/'arrow'/'no'
 #Read more at: https://github.com/kotwizkiy/noiseTV/README.md'''
 
 try:
     config_file = open('config', 'r')
 except Exception:
+    print('No config file!')
     config_file = open('config', 'w')
     config_file.write(defaults)
     config_file.close()
     config_file = open('config', 'r')
+global wheel, kb_x, kb_y, config
+wheel = 0
+kb_x, kb_y = 0, 0
 config = []
 for lin in config_file:
     config.append(lin)
