@@ -1,7 +1,13 @@
-defaults = '''0 #BPM, float. Can be 0 (actually, means 3600)
-10 #sides' of square length, int (px)
-rainbow #color palette: 'b/w' for black and white, 'rainbow' for all colors, 'mouse' for mouse-control of palette or '%x %y' (int,int) for color in HSB: color will be: Rand(0,x)/255, Rand(0,y)/255, Rand(255)/255
-no # cursor type: cross, arrow or no'''
+global wheel, kb_x, kb_y, config
+wheel = 0
+kb_x, kb_y = 0, 0
+
+#Default config
+defaults = '''0 #float. Can be 0 (actually, means 3600)
+10 #int (px)
+rainbow #color palette: 'b/w'/'rainbow'/'wheel-saturation'/'wheel-hue'/'mouse'/'keyboard'/'%x %y'(int,int)
+no #'cross'/'arrow'/'no'
+#Read more at: https://github.com/kotwizkiy/noiseTV/README.md'''
 
 try:
     config_file = open('config', 'r')
@@ -13,7 +19,7 @@ except Exception:
 config = []
 for lin in config_file:
     config.append(lin)
-global config
+
 
 
 def setup():
@@ -39,9 +45,10 @@ def setup():
 
 
 def draw():
-    global config
+    global config, wheel, kb_x, kb_y
     side = int(config[1].split()[0])
     palette = config[2].split()[0]
+    all_hue = True
     if palette.lower() == 'b/w':
         color_of_x = 0
         color_of_y = 0
@@ -51,11 +58,48 @@ def draw():
     elif palette.lower() == 'mouse':
         color_of_x = mouseX
         color_of_y = mouseY
+        all_hue = False
+    elif palette.lower() == 'wheel-saturation':
+        color_of_x = width
+        color_of_y = wheel % height
+    elif palette.lower() == 'wheel-hue':
+        color_of_x = wheel % width
+        color_of_y = height
+        all_hue = False
+    elif palette.lower() == 'keyboard':
+        color_of_x = kb_x % width
+        color_of_y = height - (kb_y % height)
+        all_hue = False
     else:
         tmp = config[2].split()
         color_of_x = int(tmp[0]) * (width / 255.0)
         color_of_y = int(tmp[1]) * (height / 255.0)
     for i in xrange(0, width, side):
         for j in xrange(0, height, side):
-            fill(random(color_of_x), random(color_of_y), random(255))
+            if all_hue:
+                fill(random(color_of_x), random(color_of_y), random(255))
+            else:
+                fill(random(color_of_x - 30, color_of_x + 30),
+                     random(color_of_y), random(255))
             rect(i, j, side, side)
+
+
+def mouseWheel(event):
+    global wheel
+    wheel += event.getCount() * 10
+    if wheel > 10 ** 8:
+        wheel %= (10 ** 8)
+
+
+def keyReleased():
+    global kb_x, kb_y
+    #   38
+    # 37 40 39
+    if keyCode == 38:
+        kb_y -= 20
+    elif keyCode == 40:
+        kb_y += 20
+    elif keyCode == 37:
+        kb_x -= 20
+    elif keyCode == 39:
+        kb_x += 20
