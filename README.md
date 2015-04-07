@@ -17,6 +17,12 @@ Configuration file must have 5 lines for 5 variables:
 * Cursor type: ```arrow```, ```cross``` or ```no```
 * ```3D``` or ```2D```. In 2D-mode, you can see noise like when you see it on TV. On 3D-mode there is a room with strange noisy walls
 
+####2D mode, rainbow
+![2D](http://kotwizkiy.ru/img/2D.png)
+####Red 3D room
+![3D](http://kotwizkiy.ru/img/3D.png)
+
+
 ###TODO:
 * Add Tap-BPM
 * Make 3D-room interesting and beautiful
