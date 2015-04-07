@@ -2,7 +2,7 @@ global wheel, kb_x, kb_y, config
 wheel = 0
 kb_x, kb_y = 0, 0
 
-#Default config
+
 defaults = '''0 #float. Can be 0 (actually, means 3600)
 10 #int (px)
 rainbow #color palette: 'b/w'/'rainbow'/'wheel-saturation'/'wheel-hue'/'mouse'/'keyboard'/'%x %y'(int,int)
@@ -21,8 +21,8 @@ for lin in config_file:
     config.append(lin)
 
 
-
 def setup():
+    global config
     size(displayWidth, displayHeight)
     cursor_type = config[3].split()[0]
     if cursor_type.lower() == 'no':
@@ -33,7 +33,6 @@ def setup():
         cursor(ARROW)
     if (frame is not None):
         frame.setResizable(True)
-    global config
     bpm = float(config[0].split()[0])
     if bpm != 0:
         frameRate(bpm / 60.0)
