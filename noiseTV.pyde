@@ -2,7 +2,8 @@ defaults = '''300 #float. Can be 0 (actually, means 3600)
 100 #int (px)
 mouse #color palette: 'b/w'/'rainbow'/'wheel-saturation'/'wheel-hue'/'mouse'/'keyboard'/'%x %y'(int,int)
 cross #'cross'/'arrow'/'no'
-#Read more at: https://github.com/kotwizkiy/noiseTV'''
+2D #'2D'/'3D'
+#Read more at: https://github.com/kotwizkiy/noiseTV/README.md'''
 
 try:
     config_file = open('config', 'r')
@@ -20,9 +21,20 @@ for lin in config_file:
     config.append(lin)
 
 
+def draw_a_wall(col, side, all_hue):
+    for i in xrange(0, width, side):
+        for j in xrange(0, height, side):
+            if all_hue:
+                fill(random(col[0]), random(col[1]), random(255))
+            else:
+                fill(random(col[0] - 30, col[0] + 30),
+                     random(col[1]), random(255))
+            rect(i, j, side, side)
+
+
 def setup():
     global config
-    size(displayWidth, displayHeight)
+    size(displayWidth, displayHeight, P3D)
     cursor_type = config[3].split()[0]
     if cursor_type.lower() == 'no':
         noCursor()
@@ -64,16 +76,22 @@ def draw():
         all_hue = False
     else:
         tmp = config[2].split()
-        color_of_x = int(tmp[0]) * (width / 255.0)
-        color_of_y = int(tmp[1]) * (height / 255.0)
-    for i in xrange(0, width, side):
-        for j in xrange(0, height, side):
-            if all_hue:
-                fill(random(col[0]), random(col[1]), random(255))
-            else:
-                fill(random(col[0] - 30, col[0] + 30),
-                     random(col[1]), random(255))
-            rect(i, j, side, side)
+        col = int(tmp[0]) * (width / 255.0),  int(tmp[1]) * (height / 255.0)
+
+    mode = config[4].split()[0]
+    if mode.lower() == '3d':
+        stroke(0)
+        background(col[0], col[1], 255)
+        rotateY(PI / 2.0)
+        draw_a_wall(col, side, all_hue)
+        translate(width / 2, 0)
+        rotateY(-PI / 2.0)
+        draw_a_wall(col, side, all_hue)
+        translate(width, 0)
+        rotateY(-PI / 2.0)
+        draw_a_wall(col, side, all_hue)
+    else:
+        draw_a_wall(col, side, all_hue)
 
 
 def mouseWheel(event):
