@@ -49,25 +49,19 @@ def draw():
     palette = config[2].split()[0]
     all_hue = True
     if palette.lower() == 'b/w':
-        color_of_x = 0
-        color_of_y = 0
+        col = (0, 0)
     elif palette.lower() == 'rainbow':
-        color_of_x = width
-        color_of_y = height
+        col = (width, height)
     elif palette.lower() == 'mouse':
-        color_of_x = mouseX
-        color_of_y = mouseY
+        col = mouseX, mouseY
         all_hue = False
     elif palette.lower() == 'wheel-saturation':
-        color_of_x = width
-        color_of_y = wheel % height
+        col = (width, wheel % height)
     elif palette.lower() == 'wheel-hue':
-        color_of_x = wheel % width
-        color_of_y = height
+        col = wheel % width, height
         all_hue = False
     elif palette.lower() == 'keyboard':
-        color_of_x = kb_x % width
-        color_of_y = height - (kb_y % height)
+        col = kb_x % width, height - (kb_y % height)
         all_hue = False
     else:
         tmp = config[2].split()
@@ -76,10 +70,10 @@ def draw():
     for i in xrange(0, width, side):
         for j in xrange(0, height, side):
             if all_hue:
-                fill(random(color_of_x), random(color_of_y), random(255))
+                fill(random(col[0]), random(col[1]), random(255))
             else:
-                fill(random(color_of_x - 30, color_of_x + 30),
-                     random(color_of_y), random(255))
+                fill(random(col[0] - 30, col[0] + 30),
+                     random(col[1]), random(255))
             rect(i, j, side, side)
 
 
