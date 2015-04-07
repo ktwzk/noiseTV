@@ -2,7 +2,7 @@ defaults = '''300 #float. Can be 0 (actually, means 3600)
 100 #int (px)
 mouse #color palette: 'b/w'/'rainbow'/'wheel-saturation'/'wheel-hue'/'mouse'/'keyboard'/'%x %y'(int,int)
 cross #'cross'/'arrow'/'no'
-#Read more at: https://github.com/kotwizkiy/noiseTV/README.md'''
+#Read more at: https://github.com/kotwizkiy/noiseTV'''
 
 try:
     config_file = open('config', 'r')
