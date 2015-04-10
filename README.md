@@ -27,3 +27,4 @@ Configuration file must have 5 lines for 5 variables:
 * Add Tap-BPM
 * Make 3D-room interesting and beautiful
 * http://py.processing.org/reference/imageMode.html, http://py.processing.org/reference/image.html
+* Improve configuration-file
